@@ -1,0 +1,92 @@
+<!-- 哪吒探针前台美化 版本 2025.04.11 by TomyJan -->
+<!-- 详细说明与支持请前往: https: //www.nodeseek.com/post-311746-1 -->
+<script>
+    
+    /* 这部分这几个挂在 window 下的变量是哪吒内置的, 详见 https://nezha.wiki/guide/settings.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81 */
+    window.CustomBackgroundImage = 'https: //api.tomys.top/api/acgimg'; /* PC 端背景图, 这是我自己的随机图 API, 自定义背景图建议配合下方的压暗和模糊食用 */
+    window.CustomMobileBackgroundImage = 'https: //api.tomys.top/api/acgimg'; /* 移动端背景图, 这是我自己的随机图 API, 自定义背景图建议配合下方的压暗和模糊食用 */
+    window.CustomLogo = 'https: //webp-usor.loophy.top/2025/05/avat1.png'; /* 页面左上角和标题栏展示的 Logo, 换成你自己的 */
+    window.CustomDesc = 'Less is more'; /* 页面左上角副标题 */
+    window.ShowNetTransfer = true; /* 服务器卡片是否显示上下行流量, 默认不显示 */
+    /* window.DisableAnimatedMan = true; /* 为 true 则基佬死开, 和下方 CustomIllustration 冲突 */
+    window.CustomIllustration = 'https: //s2.loli.net/2024/12/24/fj3EXY7umsyR9NW.webp'; /* 把基佬图换成你想换的图, 此处图抄袭自 https://misaka.se/ */
+    window.FixedTopServerName = true; /* 是否固定顶部显示服务器名称, 默认不固定 */
+    window.CustomLinks = '[
+    {\"link\":\"https://loophy.top/\",\"name\":\"首页\"},{\"link\":\"https://vov.moe/\",\"name\":\"博客\"}]'; /* 自定义导航栏链接 */
+        /* window.ForceTheme = 'dark'; /* 强制主题色, 可选值为 light 或 dark */
+        /* window.ForceUseSvgFlag = false; /* 是否强制使用 svg 旗帜 */
+        /* 自定义字体, 注意需要同步修改下方 CSS 中的 font-family */
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https: //font.sec.miui.com/font/css?family=MiSans:400,700:MiSans'; // MiSans
+        // link.href = 'https://npm.elemecdn.com/lxgw-wenkai-screen-webfont@1.7.0/style.css'; // 霞鹜文楷, font-family: 'LXGW WenKai Screen'
+    document.head.appendChild(link);
+
+    /* 修改页脚, 可使用 HTML 元素, 请保留哪吒版权信息, 与下方 CSS 中的 不显示页脚 冲突 */
+        /* 左侧哪吒文本 */
+    const observerFooterLeft = new MutationObserver(() => {
+        const footerLeft = document.querySelector('.server-footer-name > div:first-child');
+        if (footerLeft) {
+                // footerLeft.innerHTML = 'Powered by <a href="https://github.com/nezhahq/nezha" target="_blank">NeZha</a>';
+            footerLeft.style.visibility = 'hidden'; // 隐藏
+            observerFooterLeft.disconnect();
+            }
+        });
+    observerFooterLeft.observe(document.body,
+        { childList: true, subtree: true
+        });
+    /* 右侧主题文本 */
+    const observerFooterRight = new MutationObserver(() => {
+        const footerRight = document.querySelector('.server-footer-theme');
+        if (footerRight) {
+            footerRight.innerHTML = '<section>Powered by <a href="https://github.com/nezhahq/nezha" target="_blank">NeZha</a></section>';
+            // footerRight.style.visibility = 'hidden'; // 隐藏
+            observerFooterRight.disconnect();
+            }
+        });
+    observerFooterRight.observe(document.body,
+        { childList: true, subtree: true
+        });
+</script>
+<style>
+    /* 自定义字体, 注意需要在上方 JS 中引入相应字体 */
+    * {
+        font-family: 'MiSans';
+        }
+    h1, h2, h3, h4, h5 {
+        font-family: 'MiSans', sans-serif;
+        }
+        /* 背景压暗和模糊, 开了背景图建议开启 */
+    .dark .bg-cover: :after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(6px);
+        background-color: rgba(0,
+            0,
+            0,
+            0.6);
+        }
+    .light .bg-cover: :after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(6px);
+        background-color: rgba(255,
+            255,
+            255,
+            0.3);
+        }
+        /* 不显示右上角语言切换按钮 */
+        /* [id="radix-:r0:"] {
+        display: none;
+    } */
+        /* 不显示右上角主题切换按钮 */
+        /* [id="radix-:r2:"] {
+        display: none;
+    } */
+        /* 不显示页脚, 请保留哪吒版权信息, 与上方 JS 中的 修改页脚文本 冲突 */
+        /* footer {
+        display: none;
+    } */
+</style>

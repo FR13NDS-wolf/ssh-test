@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: mlads-zxyps
+created: 2025-07-04T12:44:11+08:00
