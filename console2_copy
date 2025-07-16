@@ -1,0 +1,60 @@
+(() => {
+  // 文本提取部分不变
+  function getAllTextNodes() {
+    let walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+    let node, texts = [];
+    while (node = walker.nextNode()) {
+      let txt = node.nodeValue.trim();
+      if (txt) texts.push(txt);
+    }
+    return texts;
+  }
+
+  function isChinese(text) {
+    return /[\u4e00-\u9fa5]/.test(text);
+  }
+  function isEnglish(text) {
+    return /^[A-Za-z0-9\s.,'"?!\-]+$/.test(text);
+  }
+
+  let texts = getAllTextNodes();
+
+  let chineseTexts = texts.filter(t => isChinese(t));
+  let englishTexts = texts.filter(t => isEnglish(t));
+
+  let result = '=== 中文内容 ===\n' + chineseTexts.join('\n\n') + '\n\n=== English Content ===\n' + englishTexts.join('\n\n');
+
+  // 创建隐藏textarea
+  const textarea = document.createElement('textarea');
+  textarea.value = result;
+  // 必须设置为不可见但可选中
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-1000px';
+  textarea.style.left = '-1000px';
+  document.body.appendChild(textarea);
+
+  // 选中内容
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  // 执行复制命令
+  let success = false;
+  try {
+    success = document.execCommand('copy');
+  } catch (err) {
+    success = false;
+  }
+  // 移除textarea
+  document.body.removeChild(textarea);
+
+  if (success) {
+    console.log('文本已静默复制到剪贴板');
+  } else {
+    console.warn('复制失败，可能浏览器限制或未在用户交互事件中调用');
+  }
+})();

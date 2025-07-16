@@ -1,0 +1,68 @@
+// ==UserScript==
+// @name         数据加加平台自动提取中英文复制
+// @namespace    http://tampermonkey.net/
+// @version      1.4
+// @description 
+// @author       你
+// @match        https://www.shujiajia.com/platform/workbench/*
+// @grant        GM_setClipboard
+// @run-at       document-end
+// ==/UserScript==
+
+(function() {
+  'use strict';
+
+  function copyTextToClipboard(text) {
+    if (typeof GM_setClipboard === "function") {
+      GM_setClipboard(text);
+      console.log("文本已复制到剪贴板 (GM_setClipboard)");
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        console.log("文本已复制到剪贴板 (navigator.clipboard)");
+      }).catch(err => {
+        console.warn("复制失败:", err);
+      });
+    } else {
+      console.warn("浏览器不支持剪贴板API");
+    }
+  }
+
+  function getTextFromSelector(selector) {
+    const el = document.querySelector(selector);
+    return el ? el.innerText.trim() : '';
+  }
+
+  function main() {
+    const chineseText = getTextFromSelector('.content');
+    const englishText = getTextFromSelector('.ql-editor');
+
+    if (!chineseText && !englishText) {
+      console.log('未检测到中文或英文文本，等待继续监听...');
+      return false;
+    }
+
+    const result = `=== 中文内容 ===\n${chineseText}\n\n=== English Content ===\n${englishText}`;
+    copyTextToClipboard(result);
+    console.log('中英文文本已提取并复制到剪贴板！');
+    return true;
+  }
+
+  // 用 MutationObserver 代替 DOMNodeInserted
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        // 延时执行，等待DOM稳定
+        setTimeout(main, 1500);
+        break;
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // 页面加载后先执行一次
+  window.addEventListener('load', () => {
+    setTimeout(main, 1500);
+  });
+
+})();
