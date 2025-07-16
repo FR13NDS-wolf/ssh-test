@@ -1,1 +1,39 @@
-.D*
+# 忽略所有 .log 文件
+*.log
+
+# 忽略 build 目录及其所有内容
+build/
+
+# 忽略 node_modules 目录（常见于 Node.js 项目）
+node_modules/
+
+# 忽略操作系统生成的文件
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# 忽略 IDE 配置文件
+.idea/      # IntelliJ IDEA
+.vscode/    # VS Code
+*.iml       # IntelliJ IDEA 模块文件
+
+# 忽略临时文件
+*~          # Emacs 临时文件
+*.tmp
+*.bak
+
+# 忽略编译生成的文件
+*.o         # 对象文件
+*.exe       # 可执行文件
+*.dll       # 动态链接库
+*.class     # Java 编译文件
+
+# 忽略敏感信息（例如环境变量文件）
+#.env
+config.local.php
+
+# 忽略特定文件，即使它们在子目录中
+mysecretfile.txt
+
+# 忽略 logs 目录下的所有文件，但重新包含 important.log
+logs/*
+!logs/important.log
