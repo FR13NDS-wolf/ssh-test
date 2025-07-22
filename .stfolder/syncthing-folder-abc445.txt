@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: lto5e-szcpy
+created: 2025-07-17T13:19:04+08:00
